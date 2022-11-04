@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+<%-- 문자열 관련 메서드를 제공하는 JSTL (EL 형식) --%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,45 +19,46 @@
 </head>
 <body>
     <main>
-       <jsp:include page="/WEB-INF/views/common/header.jsp"/> 
+    <jsp:include page="/WEB-INF/views/common/header.jsp"/> 
             <section class="signUp-content">
 
                 <form action="/member/signUp" method="POST" name="signUp-frm" id="signUp-frm">
                     
-                     <!--이메일 입력 영역-->
+                    <!--이메일 입력 영역-->
                     <label for="memberEmail">
                         <span class="required">*</span> 아이디(이메일)
                     </label>
 
                     <div class="signUp-input-area">
                         <input type="text" name="memberEmail" id="memberEmail"
-                            placeholder="아이디(이메일)" maxlength="20" autocomplete="off" required>
+                        placeholder="아이디(이메일)" maxlength="20" autocomplete="off" required
+                        value="${tempMember.memberEmail}">
                         
                         <button type="button">인증번호 받기</button>    
                     </div>
-                    <span class="signUp-message">메일을 받을 수 있는 이메일을 입력해주세요</span>
+                    <span class="signUp-message" id="emailMessage">메일을 받을 수 있는 이메일을 입력해주세요</span>
                 
 
                     <!--인증번호 입력 영역-->
                     <label for="emailCheck">
                         <span class="required">*</span> 인증번호
                     </label>
-                  
-                     <div class="signUp-input-area">
+                
+                    <div class="signUp-input-area">
                         <input type="text" name="memberCheck" id="memberCheck"
-                            placeholder="인증번호 입력" maxlength="6" autocomplete="off" required>
-                       
+                            placeholder="인증번호 입력" maxlength="50" autocomplete="off" required>
+                    
                             <button type="button">인증하기</button>    
                     </div>
                     <span class="signUp-message confirm">인증되었습니다.</span>
                                                 <!-- 인증번호가 일치하지 않습니다.-->
                 
-                 <!--비밀번호/ 비밀번호 확인 입력 영역-->
-                 <label for="memberPw">
+                <!--비밀번호/ 비밀번호 확인 입력 영역-->
+                <label for="memberPw">
                     <span class="required">*</span> 비밀번호
                 </label>
-              
-                 <div class="signUp-input-area">
+            
+                <div class="signUp-input-area">
                     <input type="password" name="memberPw" id="memberPw"
                     placeholder="비밀번호" maxlength="20" required>
                 </div>
@@ -62,51 +66,58 @@
                     <input type="password" name="memberPwConfirm" id="memberPwConfirm"
                     placeholder="비밀번호 확인" maxlength="20" required>
                 </div>
-                <span class="signUp-message error">비밀번호가 일치하지 않습니다.</span>
+                <span class="signUp-message" id="pwMessage">영어,숫자,특수문자(!,@,#,-,_)6~20글자 사이로 입력.</span>
                 
                 <!--닉네임 입력 영역-->
                 <label for="memberNickname">
                     <span class="required">*</span> 닉네임
                 </label>
-              
-                 <div class="signUp-input-area">
+            
+                <div class="signUp-input-area">
                     <input type="text" name="memberNickname" id="memberNickname"
-                    placeholder="닉네임" maxlength="10" required>
+                    placeholder="닉네임" maxlength="10" required
+                    value="${tempMember.memberNickname}">
                 </div>
-             
-                <span class="signUp-message confirm">사용 가능한 닉네임 입니다.</span>
 
-                 <!--전화번호 입력 영역-->
-                 <label for="memberTel">
+                <span class="signUp-message" id="nickMessage">한글,영어,숫자로만 2~10글자</span>
+
+                <!--전화번호 입력 영역-->
+                <label for="memberTel">
                     <span class="required">*</span> 전화번호
                 </label>
-              
-                 <div class="signUp-input-area">
+            
+                <div class="signUp-input-area">
                     <input type="text" name="memberTel" id="memberTel"
-                    placeholder="(- 없이 숫자만 입력)" maxlength="11" required>
+                    placeholder="(- 없이 숫자만 입력)" maxlength="11" required
+                    value="${tempMember.memberTel}">
                 </div>
-             
-                <span class="signUp-message error">전화번호 형식이 올바르지 않습니다.</span>
+            
+                <span class="signUp-message" id="telMessage">전화번호를 입력해주세요.(- 제외)</span>
                 
+                <%-- 주소 문자열 -> 배열로 쪼개기 --%> 
+                <c:set var="addr" value="${fn:split(tempMember.memberAddress,',,')}"/>
+
                 <!--주소 입력 영역-->
                 <label for="memberAddress">주소</label>
             
                 <div class="signUp-input-area">
                     <input type="text" name="memberAddress" id="sample6_postcode"
-                    placeholder="우편번호" maxlength="6">
+                    placeholder="우편번호" maxlength="6" value="${addr[0]}">
 
                     <button type = "button" onclick = "sample6_execDaumPostcode()">검색 </button>
                 </div>
 
                 <div class="signUp-input-area">
-                    <input type="text" name="memberAddress" id="sample6_address" placeholder="도로명/지번주소" >
+                    <input type="text" name="memberAddress" id="sample6_address" placeholder="도로명/지번주소"
+                    value="${addr[1]}" >
                 </div>
 
                 <div class="signUp-input-area">
-                    <input type="text" name="memberAddress" id="sample6_detailAddress" placeholder="상세 주소" >
+                    <input type="text" name="memberAddress" id="sample6_detailAddress" placeholder="상세 주소"
+                    value="${addr[2]}" >
                 </div>
             
-                 <button id="signUp-btn">가입하기</button>
+                <button id="signUp-btn">가입하기</button>
 
                 
             </form>
@@ -124,7 +135,7 @@
                     // 각 주소의 노출 규칙에 따라 주소를 조합한다.
                     // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
                     var addr = ''; // 주소 변수
-                   
+                
 
                     //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
                     if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
@@ -144,5 +155,7 @@
             }).open();
         }
     </script>
+
+    <script src="/resources/js/member/signUp.js"></script>
 </body>
 </html>
