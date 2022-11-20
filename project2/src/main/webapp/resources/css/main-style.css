@@ -111,6 +111,8 @@ nav{
     top : 0;
 
     background-color: white; /*투명하지 않게...*/
+
+    z-index: 100;
 }
 
 /* ul 스타일 지정 */
@@ -456,3 +458,18 @@ label[for='header-menu-toggle']:hover{
     margin: 0;
     color: gray;
 }
+
+
+#content-1-2 {
+    width: 300px;
+    margin: 50px auto;
+}
+
+.secession{
+    background-color: #ccc;
+}
+
+.secession>td:first-of-type{
+    text-decoration: line-through;
+}
+

@@ -190,26 +190,32 @@ form[name='myPage-frm']{
     border-radius: 50%;
 
     position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #profile-image{
-    width: 100%;
     height: 100%;
-    border-radius: 50%;
+}
+
+form[name='myPage-frm'] {
+    position: relative;
 }
 
 /* 삭제버튼 */
 #delete-image{
     position: absolute;
-    top : 0;
-    right : 0;
+    top : -2px;
+    right : 240px;
     cursor: pointer;
 }
 
 /* 이미지 버튼 영역 */
 .profile-btn-area{
     width: 230px;
-    margin: 20px 0;
+    margin: 20px ;
 
     display: flex;
     justify-content: center;
